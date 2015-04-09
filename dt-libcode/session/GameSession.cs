@@ -8,18 +8,18 @@ namespace dtlibcode
 	/// </summary>
 	public class GameSession
 	{
-		public Scenario GameScenario { get; private set; }
+		public GameScenario GameScenario { get; private set; }
 		public World GameWorld { get; private set; }
 		public PlayerManager PlayerMgr { get; private set; }
 		public GameState State { get; private set; }
 
-		public GameSession(Scenario scenario, GameSetup setup, PlayerManager playerManager)
+		public GameSession(GameScenario scenario, GameSetup setup, PlayerManager playerManager)
 		{
 			// data
 			GameScenario = scenario;
 			GameWorld = scenario.StartWorld(setup);
 			PlayerMgr = playerManager;
-			GameState = new GameState();
+			State = new GameState();
 
 			// hooks
 			Messenger.AddListener<Player>("LoginPlayer", LoginPlayer);

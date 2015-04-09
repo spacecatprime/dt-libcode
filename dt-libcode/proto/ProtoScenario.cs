@@ -2,7 +2,7 @@
 
 namespace dtlibcode
 {
-	public class ProtoScenario : Scenario
+	public class ProtoScenario : GameScenario
 	{
 		private World m_world;
 
@@ -20,7 +20,8 @@ namespace dtlibcode
 		{
 			get 
 			{ 
-				return m_world.NumPlayers == 0; 
+				// TODO: need to close out a game some how
+				return false; 
 			}
 		}
 

@@ -49,13 +49,13 @@
     <Compile Include="proto\ProtoMap.cs" />
     <Compile Include="setting\GameMap.cs" />
     <Compile Include="session\GameSession.cs" />
-    <Compile Include="session\Scenario.cs" />
     <Compile Include="session\GameSetup.cs" />
     <Compile Include="proto\ProtoScenario.cs" />
     <Compile Include="proto\ProtoGameSetup.cs" />
     <Compile Include="thing\Unit.cs" />
     <Compile Include="message\Callback.cs" />
     <Compile Include="message\Messenger.cs" />
+    <Compile Include="session\GameScenario.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -2,12 +2,15 @@
 
 namespace dtlibcode
 {
-	public class TestScenario : Scenario
+	public class TestScenario : GameScenario
 	{
 		private World m_world;
 
+		public bool GameAlive { get; set; }
+
 		public TestScenario() : base("test-scenario")
 		{
+			GameAlive = true;
 		}
 
 		public override World StartWorld(GameSetup aSetup)
@@ -20,7 +23,7 @@ namespace dtlibcode
 		{
 			get 
 			{ 
-				return m_world.NumPlayers != 0; 
+				return GameAlive; 
 			}
 		}
 

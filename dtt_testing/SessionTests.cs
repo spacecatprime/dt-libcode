@@ -58,7 +58,7 @@ namespace dtt_testing
 
 			playerManager.LogoutPlayer(playerManager.GetPlayers()[0]);
 			playerManager.LogoutPlayer(playerManager.GetPlayers()[0]);
-			Assert.AreEqual(gs.Progress(), false);
+			Assert.AreEqual(playerManager.GetPlayers().Count, 0);
 		}
 
 		[Test()]
