@@ -43,6 +43,7 @@
     <Compile Include="proto\TestScenario.cs" />
     <Compile Include="proto\TestWorld.cs" />
     <Compile Include="proto\TestGameRound.cs" />
+    <Compile Include="FullGame.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
