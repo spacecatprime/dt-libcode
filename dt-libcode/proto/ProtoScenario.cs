@@ -29,6 +29,16 @@ namespace dtlibcode
 		{
 			return new ProtoGameSetup();
 		}
+
+		public override GameRound CreateFirstRound(PlayerManager pm)
+		{
+			return new GameRound(pm, MakeGameTurn);
+		}
+
+		private GameTurn MakeGameTurn(Player p)
+		{
+			
+		}
 	}
 }
 

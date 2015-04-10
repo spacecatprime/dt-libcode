@@ -22,8 +22,8 @@ namespace dtlibcode
 			State = new GameState();
 
 			// hooks
-			Messenger.AddListener<Player>("LoginPlayer", LoginPlayer);
-			Messenger.AddListener<Player>("LogoutPlayer", LogoutPlayer);
+			GameMessages.SetCallback<Player>(GameMessages.Kind.PlayerLogin, LoginPlayer);
+			GameMessages.SetCallback<Player>(GameMessages.Kind.PlayerLogout, LogoutPlayer);
 
 			// add current players to world
 			foreach(var p in playerManager.GetPlayers())
@@ -34,7 +34,7 @@ namespace dtlibcode
 
 		public virtual void StartGame()
 		{
-			Messenger.Emit("StartGame", this);
+			Messenger.Emit(GameMessages.Kind.StartGame.ToString(), this);
 		}
 
 		public bool Progress()

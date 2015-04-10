@@ -31,6 +31,13 @@ namespace dtlibcode
 		{
 			return new TestGameSetup();
 		}
+
+		public void SetupPlayerConfig(int playerIdx, GameSetup setup, Player player)
+		{			
+			var options = setup.CreateOptions();
+			options["team"] = ((playerIdx % 2) == 0) ? "red" : "blue";
+			setup.SetOptionsFor(player, options);
+		}
 	}
 }
 

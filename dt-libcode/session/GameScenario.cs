@@ -16,6 +16,8 @@ namespace dtlibcode
 		abstract public bool ObjectivesComplete { get; }
 
 		abstract public GameSetup CreateSetup();
+
+		abstract public GameRound CreateFirstRound(PlayerManager pm);
 	}
 }
 

@@ -22,10 +22,12 @@ namespace dtlibcode
 		public void AddThing(GameThing gt)
 		{
 			m_thingList.Add(gt);
+			Messenger.Emit(GameMessages.Kind.ThingAdded.ToString(), gt);
 		}
 
 		public void RemoveThing(GameThing gt)
 		{
+			Messenger.Emit(GameMessages.Kind.ThingRemoved.ToString(), gt);
 			m_thingList.Add(gt);
 		}
 

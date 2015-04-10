@@ -21,6 +21,11 @@ namespace dtlibcode
 		public virtual void HandlePlayerLogout(Player player)
 		{
 		}
+
+		public virtual void OnMapLoaded()
+		{
+			Messenger.Emit(GameMessages.Kind.WorldLoaded.ToString(), this);
+		}
 	}
 }
 
