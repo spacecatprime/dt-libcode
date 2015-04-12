@@ -15,16 +15,31 @@ namespace dtlibcode
 		{
 		}
 
+		public virtual Player FirstPlayer
+		{
+			get { return m_playerList[0]; }
+		}
+
+		public virtual Player NextPlayer(Player lastPlayer)
+		{
+			int idx = m_playerList.IndexOf(lastPlayer);
+			if(m_playerList.Count == (idx - 1))
+			{
+				return null;
+			}
+			return m_playerList[idx + 1];
+		}
+
 		public bool LoginPlayer(Player player)
 		{
 			if(m_playerList.Contains(player) == false)
 			{
 				m_playerList.Add (player);
-				dtlibcode.Messenger.Emit("LoginPlayer", player);
+				GameMessages.Emit(GameMessages.Kind.PlayerLogin, player);
 
 				if(m_playerList.Count == 1)
 				{
-					dtlibcode.Messenger.Emit("AssignHost", player);
+					GameMessages.Emit(GameMessages.Kind.AssignHost, player);
 				}
 				return true;
 			}
@@ -35,7 +50,7 @@ namespace dtlibcode
 		{
 			if(m_playerList.Remove(player))
 			{
-				dtlibcode.Messenger.Emit("LogoutPlayer", player);
+				GameMessages.Emit(GameMessages.Kind.PlayerLogout, player);
 				return true;
 			}
 			return false;

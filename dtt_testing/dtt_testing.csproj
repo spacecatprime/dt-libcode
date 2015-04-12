@@ -46,6 +46,7 @@
     <Compile Include="test_objs\TestWorld.cs" />
     <Compile Include="test_objs\TestGameRound.cs" />
     <Compile Include="test_objs\TestInput.cs" />
+    <Compile Include="test_objs\TestGameTurn.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

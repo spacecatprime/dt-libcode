@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using dtlibcode;
 
-namespace dtlibcode
+namespace dtt_testing
 {
 	public class TestGameSetup : GameSetup
 	{

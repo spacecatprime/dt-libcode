@@ -5,34 +5,39 @@ namespace dtt_testing
 {
 	public class TestGameRound : GameRound
 	{
+		private int numTurns = 0;
 		public event Func<GameRound, bool> OnEndOfRound;
 
-		public TestGameRound(PlayerManager playerManager) : base(playerManager, CreateGameTurn)
+		public TestGameRound() : base(CreateGameTurn)
 		{
 		}
 
-		public override GameTurn StartFirstTurn()
+		public override GameTurn BeginGameTurn(Player player)
 		{
-			return m_gameTurnFactory.Invoke(null);
+			return base.BeginGameTurn(player);
 		}
 
-		public override GameTurn StartNextTurn(GameTurn lastTurn)
+		public override GameTurn FinishGameTurn(GameTurn lastTurn)
 		{
-			return m_gameTurnFactory.Invoke(null);
+			numTurns++;
+			return base.FinishGameTurn(lastTurn);
 		}
 
-		public override bool EndOfRound()
+		public override bool IsRoundComplete 
 		{
-			if(OnEndOfRound != null)
+			get 
 			{
+				if(OnEndOfRound == null)
+				{
+					return numTurns > 1;
+				}				
 				return OnEndOfRound(this);
-			}			
-			return true;
+			}
 		}
 
-		private static GameTurn CreateGameTurn(Player p)
+		private static GameTurn CreateGameTurn(Player player, GameRound gameRound, GameTurn lastTurn)
 		{
-			return new GameTurn(p);
+			return new TestGameTurn(player);
 		}
 	}
 }

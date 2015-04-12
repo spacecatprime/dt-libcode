@@ -25,24 +25,36 @@ namespace dtt_testing
 			Create(out input, out pm, out gs, 2);
 
 			gs.StartGame();
-			gs.GameScenario.
+			Assert.AreEqual(input.GameCount, 1);
+			var rnd = gs.GameScenario.StartRound();
+			Assert.AreEqual(input.RoundCount, 1);
+			Assert.NotNull(rnd);
+			var turn = rnd.BeginGameTurn(null);
+			Assert.AreEqual(input.TurnCount, 1);
+			Assert.NotNull(turn);
+			rnd.FinishGameTurn(turn);
+			gs.GameScenario.FinishRound(rnd);
+			gs.FinishGame();
 		}
 
 		[Test()]
 		public void SetupScenarioAndPlayFullGame()
 		{
+			// next
 		}
 
 		private void Create(out TestInput input, out PlayerManager pm, out GameSession gs, int numPlayers)
 		{
+			// first comes a player manager
+			PlayerManager playerManager = new PlayerManager();
+
 			// choose a scenario
-			TestScenario scenario = new TestScenario();
+			TestScenario scenario = new TestScenario(new PlayerRoundList(playerManager));
 
 			// set up scenario
 			GameSetup setup = scenario.CreateSetup();
 
 			// find players
-			PlayerManager playerManager = new PlayerManager();
 			for(int i = 0; i < numPlayers; ++i)
 			{
 				var player = new PlayerContestant();

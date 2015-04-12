@@ -1,14 +1,14 @@
 ﻿using System;
+using dtlibcode;
 
-namespace dtlibcode
+namespace dtt_testing
 {
 	public class TestScenario : GameScenario
 	{
 		private World m_world;
-
 		public bool GameAlive { get; set; }
 
-		public TestScenario() : base("test-scenario")
+		public TestScenario(PlayerRoundList pmr) : base("test-scenario", pmr, RoundFactory)
 		{
 			GameAlive = true;
 		}
@@ -19,17 +19,14 @@ namespace dtlibcode
 			return m_world;
 		}
 
-		public override bool ObjectivesComplete
-		{
-			get 
-			{ 
-				return GameAlive; 
-			}
-		}
-
 		public override GameSetup CreateSetup()
 		{
 			return new TestGameSetup();
+		}
+
+		public override bool AreObjectivesComplete()
+		{
+			return GameAlive;
 		}
 
 		public void SetupPlayerConfig(int playerIdx, GameSetup setup, Player player)
@@ -37,6 +34,11 @@ namespace dtlibcode
 			var options = setup.CreateOptions();
 			options["team"] = ((playerIdx % 2) == 0) ? "red" : "blue";
 			setup.SetOptionsFor(player, options);
+		}
+
+		private static GameRound RoundFactory(GameRound gr)
+		{
+			return new dtt_testing.TestGameRound();
 		}
 	}
 }

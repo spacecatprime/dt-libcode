@@ -8,14 +8,38 @@ namespace dtt_testing
 	/// </summary>
 	public class TestInput
 	{
+		public int GameCount { get; set; }
+		public int RoundCount { get; set; }
+		public int TurnCount { get; set; }
+		
 		public TestInput()
 		{
-			GameMessages.SetCallback<GameSession>(GameMessages.Kind.StartGame, OnStartGame);
-		}
+			GameMessages.SetCallback<GameSession>(GameMessages.Kind.GameBegin, delegate (GameSession s) 
+			{
+				GameCount++;
+			});
+			GameMessages.SetCallback<GameSession>(GameMessages.Kind.GameEnd, delegate (GameSession s) 
+			{
+				GameCount--;
+			});
 
-		private void OnStartGame(GameSession gs)
-		{
-			System.Diagnostics.Debug.WriteLine(gs.ToString());
+			GameMessages.SetCallback<GameRound>(GameMessages.Kind.RoundBegin, delegate (GameRound gr) 
+			{
+				RoundCount++;
+			});
+			GameMessages.SetCallback<GameRound>(GameMessages.Kind.RoundEnd, delegate (GameRound gr) 
+			{
+				RoundCount--;
+			});
+
+			GameMessages.SetCallback<GameTurn>(GameMessages.Kind.TurnBegin, delegate (GameTurn gr) 
+			{
+				TurnCount++;
+			});
+			GameMessages.SetCallback<GameTurn>(GameMessages.Kind.TurnEnd, delegate (GameTurn gr) 
+			{
+				TurnCount--;
+			});
 		}
 	}
 }

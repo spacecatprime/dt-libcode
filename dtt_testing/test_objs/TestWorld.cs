@@ -1,6 +1,7 @@
 ﻿using System;
+using dtlibcode;
 
-namespace dtlibcode
+namespace dtt_testing
 {
 	public class TestWorld : World
 	{

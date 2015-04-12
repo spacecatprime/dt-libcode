@@ -5,6 +5,17 @@ Event messaging:
 	http://wiki.unity3d.com/index.php/CSharpMessenger_Extended
 	http://wiki.unity3d.com/index.php/Advanced_CSharp_Messenger
 
+= Code Flow
+
+== Setup game
+* a player manager
+* choose a scenario
+** each player sets options
+** tweak scenerio
+* create game session
+
+== Process game session
+* 
 
 
 Basic Game Cycle
