@@ -34,7 +34,7 @@ namespace dtlibcode
 	* Don't forget that the messages that should survive the cleanup, should be marked with Messenger.MarkAsPermanent(string)
 	* 
 	*/
-	static internal class Messenger {
+	static public class Messenger {
 		#region Internal variables
 
 	#if USE_UNITYENGINE
@@ -45,21 +45,28 @@ namespace dtlibcode
 		#pragma warning restore 0414
 	#endif
 
-		static public Dictionary<string, Delegate> eventTable = new Dictionary<string, Delegate>();
+		// all the message handlers in one place
+		static private Dictionary<string, Delegate> eventTable = new Dictionary<string, Delegate>();
+
+		static public Dictionary<string, Delegate>.Enumerator EventTable 
+		{ 
+			get { return eventTable.GetEnumerator(); }
+		}
 
 		//Message handlers that should never be removed, regardless of calling Cleanup
-		static public List< string > permanentMessages = new List< string > ();
+		static private List< string > permanentMessages = new List<string> ();
+
 		#endregion
+
 		#region Helper methods
 		//Marks a certain message as permanent.
-		static public void MarkAsPermanent(string eventType) {
+		static public void MarkAsPermanent(string eventType) 
+		{
 			#if LOG_ALL_MESSAGES
 			Debug.Log("Messenger MarkAsPermanent \t\"" + eventType + "\"");
 			#endif
-
 			permanentMessages.Add( eventType );
 		}
-
 
 		static public void Cleanup()
 		{

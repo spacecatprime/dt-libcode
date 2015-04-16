@@ -18,6 +18,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -38,12 +39,14 @@
     <Compile Include="PlayerTests.cs" />
     <Compile Include="LoaderTest.cs" />
     <Compile Include="SessionTests.cs" />
-    <Compile Include="proto\TestGameSetup.cs" />
-    <Compile Include="proto\TestMap.cs" />
-    <Compile Include="proto\TestScenario.cs" />
-    <Compile Include="proto\TestWorld.cs" />
-    <Compile Include="proto\TestGameRound.cs" />
     <Compile Include="FullGame.cs" />
+    <Compile Include="test_objs\TestGameSetup.cs" />
+    <Compile Include="test_objs\TestMap.cs" />
+    <Compile Include="test_objs\TestScenario.cs" />
+    <Compile Include="test_objs\TestWorld.cs" />
+    <Compile Include="test_objs\TestGameRound.cs" />
+    <Compile Include="test_objs\TestInput.cs" />
+    <Compile Include="test_objs\TestGameTurn.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -56,6 +59,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="proto\" />
+    <Folder Include="test_objs\" />
   </ItemGroup>
 </Project>

@@ -11,7 +11,6 @@ namespace dtlibcode
 		public GameScenario GameScenario { get; private set; }
 		public World GameWorld { get; private set; }
 		public PlayerManager PlayerMgr { get; private set; }
-		public GameState State { get; private set; }
 
 		public GameSession(GameScenario scenario, GameSetup setup, PlayerManager playerManager)
 		{
@@ -19,11 +18,12 @@ namespace dtlibcode
 			GameScenario = scenario;
 			GameWorld = scenario.StartWorld(setup);
 			PlayerMgr = playerManager;
-			State = new GameState();
+			GameScenario.Session = this; // TODO: could this be done better?
+			//GameSession.
 
 			// hooks
-			Messenger.AddListener<Player>("LoginPlayer", LoginPlayer);
-			Messenger.AddListener<Player>("LogoutPlayer", LogoutPlayer);
+			GameMessages.SetCallback<Player>(GameMessages.Kind.PlayerLogin, LoginPlayer);
+			GameMessages.SetCallback<Player>(GameMessages.Kind.PlayerLogout, LogoutPlayer);
 
 			// add current players to world
 			foreach(var p in playerManager.GetPlayers())
@@ -34,12 +34,12 @@ namespace dtlibcode
 
 		public virtual void StartGame()
 		{
-			Messenger.Emit("StartGame", this);
+			GameMessages.Emit(GameMessages.Kind.GameBegin, this);
 		}
 
-		public bool Progress()
+		public virtual void FinishGame()
 		{
-			return GameScenario.ObjectivesComplete;
+			GameMessages.Emit(GameMessages.Kind.GameEnd, this);
 		}
 
 		private void LoginPlayer(Player p)

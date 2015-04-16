@@ -4,30 +4,28 @@ namespace dtlibcode
 {
 	public class ProtoScenario : GameScenario
 	{
-		private World m_world;
+		private static GameRound MakeGameRound(GameRound lr)
+		{
+			throw new NotImplementedException();
+		}
 
-		public ProtoScenario() : base("proto-scenario")
+		public ProtoScenario() : base("proto-scenario", null, MakeGameRound)
 		{
 		}
 
 		public override World StartWorld(GameSetup aSetup)
 		{
-			m_world = new ProtoWorld();
-			return m_world;
-		}
-
-		public override bool ObjectivesComplete
-		{
-			get 
-			{ 
-				// TODO: need to close out a game some how
-				return false; 
-			}
+			throw new NotImplementedException();
 		}
 
 		public override GameSetup CreateSetup()
 		{
-			return new ProtoGameSetup();
+			throw new NotImplementedException();
+		}
+
+		public override bool AreObjectivesComplete()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

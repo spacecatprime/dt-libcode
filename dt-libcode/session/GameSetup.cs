@@ -34,7 +34,7 @@ namespace dtlibcode
 			{
 				m_optionTable.Add(player, options);
 			}
-			Messenger.Emit<Player, Hashtable>("SetOptionsFor", player, options);
+			Messenger.Emit(GameMessages.Kind.SetOptionsFor.ToString(), player, options);
 			return true;
 		}
 	}
