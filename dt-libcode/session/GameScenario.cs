@@ -54,9 +54,8 @@ namespace dtlibcode
 				GameMessages.Emit(GameMessages.Kind.GameObjectivesComplete, this);
 				return null;
 			}
-			var rnd = MakeRound(lastRound);
-			GameMessages.Emit(GameMessages.Kind.RoundEnd, rnd);
-			return rnd;
+			GameMessages.Emit(GameMessages.Kind.RoundEnd, lastRound);
+			return MakeRound(lastRound);
 		}
 	}
 }

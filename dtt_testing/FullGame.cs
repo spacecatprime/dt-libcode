@@ -40,7 +40,27 @@ namespace dtt_testing
 		[Test()]
 		public void SetupScenarioAndPlayFullGame()
 		{
-			// next
+			TestInput input;
+			PlayerManager pm; 
+			GameSession gs;
+			Create(out input, out pm, out gs, 2);
+
+			GameRound rnd;
+			GameTurn turn;
+
+			gs.StartGame();
+			do
+			{
+				rnd = gs.GameScenario.StartRound();
+				turn = rnd.BeginGameTurn(null);
+				while( turn != null)
+				{
+					turn = rnd.FinishGameTurn(turn);
+				}
+				rnd = gs.GameScenario.FinishRound(rnd);
+			}
+			while (gs.GameScenario.AreObjectivesComplete() == false);
+			gs.FinishGame();
 		}
 
 		private void Create(out TestInput input, out PlayerManager pm, out GameSession gs, int numPlayers)

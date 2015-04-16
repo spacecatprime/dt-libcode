@@ -5,11 +5,13 @@ namespace dtt_testing
 {
 	public class TestGameRound : GameRound
 	{
-		private int numTurns = 0;
+		private int m_numTurns = 0;
+		private int m_uptoTurns = 2;
 		public event Func<GameRound, bool> OnEndOfRound;
 
-		public TestGameRound() : base(CreateGameTurn)
+		public TestGameRound(int uptoTurns) : base(CreateGameTurn)
 		{
+			m_uptoTurns = uptoTurns;
 		}
 
 		public override GameTurn BeginGameTurn(Player player)
@@ -19,7 +21,7 @@ namespace dtt_testing
 
 		public override GameTurn FinishGameTurn(GameTurn lastTurn)
 		{
-			numTurns++;
+			m_numTurns++;
 			return base.FinishGameTurn(lastTurn);
 		}
 
@@ -29,7 +31,7 @@ namespace dtt_testing
 			{
 				if(OnEndOfRound == null)
 				{
-					return numTurns > 1;
+					return m_numTurns >= m_uptoTurns;
 				}				
 				return OnEndOfRound(this);
 			}

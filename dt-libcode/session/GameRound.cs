@@ -48,9 +48,8 @@ namespace dtlibcode
 			{
 				return null;
 			}
-			var turn = BeginGameTurn(NextPlayer(lastTurn.ActivePlayer));
-			GameMessages.Emit(GameMessages.Kind.TurnEnd, turn);
-			return turn;
+			GameMessages.Emit(GameMessages.Kind.TurnEnd, lastTurn);
+			return BeginGameTurn(NextPlayer(lastTurn.ActivePlayer));
 		}
 	}
 }
