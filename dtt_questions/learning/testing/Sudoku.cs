@@ -10,6 +10,8 @@ namespace testing
     {
         int[][] boardGood = new int[9][]
         {
+            // k -> i
+
             //         0,0     1,0    2,0
             new int[] {4,3,5, 2,6,9, 7,8,1},
             new int[] {6,8,2, 5,7,1, 4,9,3},
@@ -32,7 +34,9 @@ namespace testing
         public void DoSudoku()
         {
             Assert.IsTrue(IsGoodSolution_Splits(boardGood));
+            Assert.IsTrue(IsGoodSolution_Grouped(boardGood));
             Assert.IsTrue(IsGoodSolution_Hashed(boardGood));
+            Assert.IsTrue(IsGoodSolution_HashedFast(boardGood));
         }
 
         private int TotalCount(int[][] board)
@@ -96,6 +100,51 @@ namespace testing
             return total == kMaxTotal;
         }
 
+        private bool IsGoodSolution_Grouped(int[][] board)
+        {
+            const int kMaxTotal = 405; // (9+8+...+1) * 9
+            int total = 0;
+            var groups = new List<int>[3,3];
+            for (int i = 0; i < 9; ++i)
+            {
+                if (ValidateArray(board[i]) == false)
+                {
+                    return false;
+                }
+                List<int> column = new List<int>();
+                for (int k = 0; k < 9; ++k)
+                {
+                    total += board[i][k];
+                    if (total > kMaxTotal)
+                    {
+                        return false;
+                    }
+                    column.Add(board[i][k]);
+
+                    int idxK = (k / 3);
+                    int idxI = (i / 3);
+                    if(groups[idxI, idxK] == null)
+                    {
+                        groups[idxI, idxK] = new List<int>();
+                    }
+                    groups[idxI, idxK].Add(board[i][k]);
+                    System.Diagnostics.Debug.WriteLine(string.Format("K={0} I={1}", idxK, idxI));
+                }
+                if (ValidateArray(column.ToArray()) == false)
+                {
+                    return false;
+                }
+            }
+            foreach (var g in groups)
+            {
+                if (ValidateArray(g.ToArray()) == false)
+                {
+                    return false;
+                }
+            }
+            return total == kMaxTotal;
+        }
+
         private bool IsGoodSolution_Hashed(int[][] board)
         {
             const int kMaxTotal = 405; // (9+8+...+1) * 9
@@ -116,23 +165,17 @@ namespace testing
                         return false;
                     }
                     column.Add(board[i][k]);
-
-                    //int blockNum = (i % 3) + (k / 3);
-                    //int blockNum = ((i % 3) * 1) | ((k / 3) * 100);
-                    //int blockNum = (i % 3) | (k / 3);
-                    //int blockNum = (i / 3) + (k % 3);
-                    //int blockNum = (i % 3) + ((k / 3) * (i % 3));
-                    //int blockNum = (i % 3) | ((k / 3) + (k % 3));
-                    //int blockNum = (i % 3) + ((k / 3) + (i % 3));
-                    int blockKey = (k % 3) + (i / 3);
+                    int idxK = (k / 3);
+                    int idxI = (i / 3);
+                    int blockKey = (idxK * 9) + idxI;
                     if (blocks.ContainsKey(blockKey))
                     {
-                        blocks[blockKey].Add(board[i][k]);
+                        blocks[blockKey].Add(board[k][i]);
                     }
                     else
                     {
                         blocks.Add(blockKey, new List<int>());
-                        blocks[blockKey].Add(board[i][k]);
+                        blocks[blockKey].Add(board[k][i]);
                     }
                 }
                 if (ValidateArray(column.ToArray()) == false)
@@ -146,6 +189,52 @@ namespace testing
                 {
                     return false;
                 }
+            }
+            return total == kMaxTotal;
+        }
+
+        private bool IsGoodSolution_HashedFast(int[][] board)
+        {
+            const int kRowTotal = 9+8+7+6+5+4+3+2+1; // 45
+            const int kMaxTotal = kRowTotal * 9; // 405
+            int total = 0;
+            var blocks = new Dictionary<int, int>();
+            for (int i = 0; i < 9; ++i)
+            {
+                if (ValidateArray(board[i]) == false)
+                {
+                    return false;
+                }
+                List<int> column = new List<int>();
+                for (int k = 0; k < 9; ++k)
+                {
+                    total += board[i][k];
+                    if (total > kMaxTotal)
+                    {
+                        return false;
+                    }
+                    column.Add(board[i][k]);
+
+                    int idxK = (k / 3);
+                    int idxI = (i / 3);
+                    int blockKey = (idxK * 9) + idxI;
+                    if (blocks.ContainsKey(blockKey))
+                    {
+                        blocks[blockKey] += board[k][i];
+                    }
+                    else
+                    {
+                        blocks.Add(blockKey, board[k][i]);
+                    }
+                }
+                if (ValidateArray(column.ToArray()) == false)
+                {
+                    return false;
+                }
+            }
+            if (blocks.Values.All((int v) => v == kRowTotal) == false)
+            {
+                return false;
             }
             return total == kMaxTotal;
         }
