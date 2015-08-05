@@ -61,6 +61,7 @@
     <Compile Include="HighestOf3.cs" />
     <Compile Include="MergeSortedArrays.cs" />
     <Compile Include="LinkedListCycles.cs" />
+    <Compile Include="Sudoku.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
