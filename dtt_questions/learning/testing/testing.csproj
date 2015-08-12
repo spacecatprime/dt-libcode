@@ -62,6 +62,7 @@
     <Compile Include="MergeSortedArrays.cs" />
     <Compile Include="LinkedListCycles.cs" />
     <Compile Include="Sudoku.cs" />
+    <Compile Include="TreeSearch.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

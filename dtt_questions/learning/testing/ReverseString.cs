@@ -15,5 +15,11 @@ namespace testing
         public void DoReverseString()
         {
         }
+
+        [TestMethod]
+        public void DoReverseStringInPlace()
+        {
+            // using the x-or method of flipping bits
+        }
     }
 }

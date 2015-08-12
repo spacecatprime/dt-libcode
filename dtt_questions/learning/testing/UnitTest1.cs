@@ -16,22 +16,8 @@ namespace testing
 }
 
 /*
-https://www.interviewcake.com/question/coin
-Imagine you landed a new job as a cashier...
-Your quirky boss found out that you're a programmer and has a weird request about something they've been wondering for a long time.
+Some solutions: https://github.com/qrafzv1/InterviewCake/tree/master/src
 
-Write a function that, given:
-
-an amount of money
-a list of coin denominations
-computes the number of ways to make amount of money with coins of the available denominations.
-
-Example: for amount=44 (44¢) and denominations=[1,2,3][1,2,3] (11¢, 22¢ and 33¢), your program would output 44—the number of ways to make 44¢ with those denominations:
-
-1¢, 1¢, 1¢, 1¢
-1¢, 1¢, 2¢
-1¢, 3¢
-2¢, 2¢
 
 https://www.interviewcake.com/question/nth-fibonacci
 Write a function fib() that a takes an integer nn and returns the nnth fibonacci ↴ number.
