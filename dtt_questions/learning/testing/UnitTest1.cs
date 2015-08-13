@@ -1,5 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace testing
 {
@@ -11,6 +14,140 @@ namespace testing
         {
             System.Diagnostics.Debug.WriteLine("test");
             System.Console.WriteLine("");
+        }
+    }
+
+    public class TreeNode
+    {
+        public object value = null;
+        public TreeNode left = null;
+        public TreeNode right = null;
+
+        public TreeNode(object v)
+        {
+            value = v;
+        }
+
+        public TreeNode MakeKids(params string[] kids)
+        {
+            if (kids.Length == 0)
+            {
+                return this;
+            }
+            else if (kids.Length == 1)
+            {
+                this.left = new TreeNode("leaf=" + kids[0]);
+                return this;
+            }
+            string lhs = string.Format("left={0}", kids[0]);
+            string rhs = string.Format("rght={0}", kids[1]);
+            var others = kids.Skip(2).Take(kids.Length - 2).ToArray();
+            this.left = new TreeNode(lhs);
+            this.right = new TreeNode(rhs);
+            int halfSize = others.Length / 2;
+            string[] leftItems = others.Take(halfSize).ToArray();
+            string[] rightItems = others.Skip(halfSize).ToArray();
+            this.left.MakeKids(leftItems);
+            this.right.MakeKids(rightItems);
+            return this;
+        }
+
+        public void PrintKids(int indent)
+        {
+            System.Diagnostics.Trace.Write("".PadLeft(indent) + value.ToString() + "\n");
+            if (left != null)
+            {
+                left.PrintKids(indent + 1);
+            }
+            if (right != null)
+            {
+                right.PrintKids(indent + 1);
+            }
+        }
+
+        public static TreeNode BuildTree(int type)
+        {
+            if (type == 0)
+            {
+                TreeNode root = new TreeNode("root");
+                return root.MakeKids(new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16" });
+            }
+            else if (type == 1)
+            {
+                return null;
+            }
+            throw new NotImplementedException();
+        }
+    }
+
+    // from http://www.codeproject.com/Articles/5603/QuickGraph-A-C-graph-library-with-Graphviz-Sup
+    public class Graph
+    {
+        [DebuggerDisplay("data={data}")]
+        public class Vertex
+        {
+            public object data;
+
+            public Vertex(object d = null)
+            {
+                data = d;
+            }
+        }
+
+        [DebuggerDisplay("data={data};{vertexOut.data}->{vertexIn.data}")]
+        public class Edge
+        {
+            public Vertex vertexIn;
+            public Vertex vertexOut;
+            public object data;
+
+            public Edge(Vertex vout, Vertex vin, object d = null)
+            {
+                vertexIn = vin;
+                vertexOut = vout;
+                data = d;
+            }
+        }
+
+        public List<Vertex> m_vertexList = new List<Vertex>();
+        public List<Edge> m_edgeList = new List<Edge>();
+
+        public Vertex AddVertex(object value = null)
+        {
+            Vertex v = new Vertex(value);
+            m_vertexList.Add(v);
+            return v;
+        }
+
+        public Edge AddEdge(Vertex vout, Vertex vin, object value = null)
+        {
+            Edge e = new Edge(vout, vin, value);
+            m_edgeList.Add(e);
+            return e;
+        }
+
+        public static Graph CreateGraph(int type, object data)
+        {
+            if (type == 1)
+            {
+                Graph g = new Graph();
+                Vertex u = g.AddVertex("u");
+                Vertex v = g.AddVertex("v");
+                Vertex w = g.AddVertex("w");
+                Vertex x = g.AddVertex("x");
+                Vertex y = g.AddVertex("y");
+                Vertex z = g.AddVertex("z");
+                g.AddEdge(u, v, "u->v"); // [u] --------> [x]
+                g.AddEdge(u, x, "u->x"); //  ^ \         | ^
+                g.AddEdge(v, y, "v->y"); //  |  >[v]<----  |
+                g.AddEdge(y, x, "y->x"); //  |      \      |     
+                g.AddEdge(x, v, "x->v"); //  |       \--> [y]
+                g.AddEdge(w, u, "w->u"); // [w]------------^
+                g.AddEdge(w, y, "w->y"); //  |
+                g.AddEdge(w, z, "w->z"); //   ----------->[z]
+                return g;
+            }
+            throw new NotImplementedException();
         }
     }
 }
@@ -60,7 +197,8 @@ Here's the Stack class you have:
         if not self.items: return None
 
         return self.items[len(self.items)-1]
-Use your Stack class to implement a new class MaxStack with a function get_max() that returns the largest element in the stack. get_max() should not remove the item.
+Use your Stack class to implement a new class MaxStack with a function get_max() that returns the largest element in the stack. 
+get_max() should not remove the item.
 
 Your stacks will contain only integers.
 

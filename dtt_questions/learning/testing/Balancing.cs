@@ -4,14 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// best week
-/// worst week
-/// work-life-balance
-/// Leadership: asking for more
-/// Leadership: customer focused, example
-/// kind of tech used
-/// recent challenges in Austin office (logistics)
-/// jesse, 7 years, backend, where to ship, promise team, specialized vs. general, 2 pizzia sized teams
 /// </summary>
 namespace testing
 {
@@ -23,74 +15,94 @@ namespace testing
         ///  A tree is "superbalanced" if the difference between the depths of any two leaf nodes is no greater than one.
         /// </summary>
 
-        public class TreeNode
-        {
-            public object value = null;
-            public TreeNode left = null;
-            public TreeNode right = null;
-
-            public TreeNode(object v)
-            {
-                value = v;
-            }
-
-            public TreeNode MakeKids(params string[] kids)
-            {
-                if (kids.Length == 0)
-                {
-                    return this;
-                }
-                else if (kids.Length == 1)
-                {
-                    this.left = new TreeNode("leaf=" + kids[0]);
-                    return this;
-                }
-                string lhs = string.Format("left={0}", kids[0]);
-                string rhs = string.Format("rght={0}", kids[1]);
-                var others = kids.Skip(2).Take(kids.Length - 2).ToArray();
-                this.left = new TreeNode(lhs);
-                this.right = new TreeNode(rhs);
-                int halfSize = others.Length / 2;
-                string[] leftItems = others.Take(halfSize).ToArray();
-                string[] rightItems = others.Skip(halfSize).ToArray();
-                this.left.MakeKids(leftItems);
-                this.right.MakeKids(rightItems);
-                return this;
-            }
-
-            public void PrintKids(int indent)
-            {
-                System.Diagnostics.Trace.Write("".PadLeft(indent) + value.ToString() + "\n");
-                if (left != null)
-                {
-                    left.PrintKids(indent + 1);
-                }
-                if(right != null)
-                {
-                    right.PrintKids(indent + 1);
-                }
-            }
-        }
-
         [TestMethod]
         public void Balancing_superbalanced()
         {
-            TreeNode tree = buildTree(0);
+            TreeNode tree = TreeNode.BuildTree(0);
             tree.PrintKids(0);
         }
 
-        private TreeNode buildTree(int type)
+        [TestMethod]
+        public void DoDepthFirstSearch()
         {
-            if (type == 0)
+            Graph g = Graph.CreateGraph(1, null);
+            DepthFirstSearch dfs = new DepthFirstSearch(g);
+            dfs.m_visit = (data => System.Diagnostics.Debug.WriteLine(data));
+            dfs.Compute("z");
+            Assert.IsNotNull(dfs.m_found);
+            Assert.IsFalse(dfs.FindValueFrom(g.m_vertexList[0], "z"));
+        }
+
+        class DepthFirstSearch
+        {
+            private Graph m_graph;
+            private List<Graph.Vertex> m_visited = new List<Graph.Vertex>();
+            private List<Graph.Edge> m_edges = new List<Graph.Edge>();
+
+            public Graph.Vertex m_found = null;
+            public Action<object> m_visit;
+
+            public DepthFirstSearch(Graph g)
             {
-                TreeNode root = new TreeNode("root");
-                return root.MakeKids(new string[] { "1", "2", "3", "4" , "5", "6" , "7", "8" , "9", "10" , "11", "12" , "13", "14", "15", "16" });
+                m_graph = g;
             }
-            else if (type == 1)
+
+            private void Reset()
             {
-                return null;
+                m_visited.Clear();
+                m_edges.Clear();
+                m_found = null;
             }
-            throw new NotImplementedException();
+
+            public void Compute(object value)
+            {
+                Reset();
+                while (m_found == null && m_visited.Count < m_graph.m_vertexList.Count)
+                {
+                    Graph.Vertex next = m_graph.m_vertexList.First(v => m_visited.Contains(v) == false);
+                    ExploreVertex(next, value);
+                }
+            }
+
+            public bool FindValueFrom(Graph.Vertex start, object value)
+            {
+                Reset();
+                ExploreVertex(start, value);
+                return m_found != null;
+            }
+
+            public void ExploreVertex(Graph.Vertex v, object value)
+            {
+                if (v.data.Equals(value))
+                {
+                    SignalVisit(v.data);
+                    m_found = v;
+                }
+                else if(m_visited.Contains(v) == false)
+                {
+                    SignalVisit(v.data);
+                    m_visited.Add(v);
+                    var edges = m_graph.m_edgeList.Where(e => e.vertexOut == v);
+                    foreach (var e in edges)
+                    {
+                        if (m_edges.Contains(e))
+                        {
+                            continue;
+                        }
+                        SignalVisit(e.data);
+                        m_edges.Add(e);
+                        ExploreVertex(e.vertexIn, value);
+                    }
+                }
+            }
+
+            private void SignalVisit(object data)
+            {
+                if (m_visit != null)
+                {
+                    m_visit.Invoke(data);
+                }
+            }
         }
 
         //[TestMethod]

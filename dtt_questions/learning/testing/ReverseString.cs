@@ -44,9 +44,10 @@ namespace testing
                 int k = intArray.Length - (i + 1);
                 if (i != k)
                 {
-                    intArray[i] = intArray[i] ^ intArray[k];
-                    intArray[k] = intArray[i] ^ intArray[k];
-                    intArray[i] = intArray[i] ^ intArray[k];
+                    // if bit is same then 0, otherwise 1
+                    intArray[i] = intArray[i] ^ intArray[k]; // 0110 = 1010 ^ 1100
+                    intArray[k] = intArray[i] ^ intArray[k]; // 1010 = 0110 ^ 1100
+                    intArray[i] = intArray[i] ^ intArray[k]; // 1100 = 0110 ^ 1010
                 }
             }
 
