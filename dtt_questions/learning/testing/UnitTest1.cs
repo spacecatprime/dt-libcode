@@ -15,6 +15,33 @@ namespace testing
             System.Diagnostics.Debug.WriteLine("test");
             System.Console.WriteLine("");
         }
+
+        [TestMethod]
+        public void FizzBuzz()
+        {
+            for (int i = 1; i < 100; ++i)
+            {
+                bool isThrees = (i % 3) == 0;
+                bool isFives = (i % 5) == 0;
+
+                if (isThrees && isFives)
+                {
+                    System.Diagnostics.Debug.WriteLine("FizzBuzz");
+                }
+                else if (isThrees)
+                {
+                    System.Diagnostics.Debug.WriteLine("Fizz");
+                }
+                else if (isFives)
+                {
+                    System.Diagnostics.Debug.WriteLine("Buzz");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(i.ToString());
+                }
+            }
+        }
     }
 
     public class TreeNode

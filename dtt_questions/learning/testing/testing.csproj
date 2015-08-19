@@ -65,6 +65,7 @@
     <Compile Include="TreeSearch.cs" />
     <Compile Include="PrintGraphNodes.cs" />
     <Compile Include="Balancing.cs" />
+    <Compile Include="BraceMatching.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
